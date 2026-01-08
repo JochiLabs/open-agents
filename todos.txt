@@ -36,6 +36,7 @@ sandbox related:
 - [ ] /slash command for selecting sandbox
 - [ ] add lifecycle hooks for sandbox interface (after setup / before stop)
 - [ ] add timeout related info to interface
+- [ ] add command to ssh into sandbox!
 
 ---
 
