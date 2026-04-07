@@ -58,7 +58,7 @@ EXAMPLES:
     inputSchema: grepInputSchema,
     execute: async (
       { pattern, path: searchPath, glob, caseSensitive = true },
-      { experimental_context },
+      { experimental_context, abortSignal },
     ) => {
       const sandbox = await getSandbox(experimental_context, "grep");
       const workingDirectory = sandbox.workingDirectory;
@@ -97,6 +97,7 @@ EXAMPLES:
           command,
           sandbox.workingDirectory,
           30_000,
+          { signal: abortSignal },
         );
 
         // grep exits with 1 when no matches found - that's not an error

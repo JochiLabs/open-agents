@@ -808,13 +808,19 @@ ${hostLine}${portLines}${runtimeEnvLine}`;
     command: string,
     cwd: string,
     timeoutMs: number,
+    options?: { signal?: AbortSignal },
   ): Promise<ExecResult> {
     try {
+      const timeoutSignal = AbortSignal.timeout(timeoutMs);
+      const signal = options?.signal
+        ? AbortSignal.any([timeoutSignal, options.signal])
+        : timeoutSignal;
+
       const result = await this.session.runCommand({
         cmd: "bash",
         args: ["-c", `cd "${cwd}" && ${command}`],
         env: this.getCommandEnv(),
-        signal: AbortSignal.timeout(timeoutMs),
+        signal,
       });
 
       let stdout = await result.stdout();
@@ -841,6 +847,10 @@ ${hostLine}${portLines}${runtimeEnvLine}`;
           stderr: `Command timed out after ${timeoutMs}ms`,
           truncated: false,
         };
+      }
+
+      if (error instanceof Error && error.name === "AbortError") {
+        throw error;
       }
 
       return {

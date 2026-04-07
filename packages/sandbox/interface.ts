@@ -128,7 +128,12 @@ export interface Sandbox {
   access(path: string): Promise<void>;
   mkdir(path: string, options?: { recursive?: boolean }): Promise<void>;
   readdir(path: string, options: { withFileTypes: true }): Promise<Dirent[]>;
-  exec(command: string, cwd: string, timeoutMs: number): Promise<ExecResult>;
+  exec(
+    command: string,
+    cwd: string,
+    timeoutMs: number,
+    options?: { signal?: AbortSignal },
+  ): Promise<ExecResult>;
 
   /**
    * Execute a shell command in detached mode (returns immediately).

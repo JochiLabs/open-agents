@@ -98,7 +98,10 @@ EXAMPLES:
 - List files in src: command: "ls -la", cwd: "src"
 - Start a dev server: command: "npm run dev", detached: true`,
     inputSchema: bashInputSchema,
-    execute: async ({ command, cwd, detached }, { experimental_context }) => {
+    execute: async (
+      { command, cwd, detached },
+      { experimental_context, abortSignal },
+    ) => {
       const sandbox = await getSandbox(experimental_context, "bash");
       const workingDirectory = sandbox.workingDirectory;
 
@@ -139,7 +142,9 @@ EXAMPLES:
         }
       }
 
-      const result = await sandbox.exec(command, workingDir, TIMEOUT_MS);
+      const result = await sandbox.exec(command, workingDir, TIMEOUT_MS, {
+        signal: abortSignal,
+      });
 
       return {
         success: result.success,

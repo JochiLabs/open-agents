@@ -54,7 +54,7 @@ EXAMPLES:
     inputSchema: globInputSchema,
     execute: async (
       { pattern, path: basePath, limit = 100 },
-      { experimental_context },
+      { experimental_context, abortSignal },
     ) => {
       const sandbox = await getSandbox(experimental_context, "glob");
       const workingDirectory = sandbox.workingDirectory;
@@ -137,6 +137,7 @@ EXAMPLES:
           command,
           sandbox.workingDirectory,
           30_000,
+          { signal: abortSignal },
         );
 
         // find returns exit code 1 on permission errors but may still produce valid results
