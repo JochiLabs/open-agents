@@ -1190,9 +1190,9 @@ export function GitPanel(props: GitPanelProps) {
   return (
     <div className="flex h-full w-72 shrink-0 flex-col border-l border-border bg-background xl:w-80">
       {/* Panel top bar: PR link or branch name — matches session header height */}
-      <div className="flex min-h-[44px] items-center justify-between gap-2 border-b border-border px-3">
+      <div className="flex items-center justify-between gap-2 border-b border-border px-3 py-2">
         {/* Left: PR link or repo info */}
-        <div className="flex min-w-0 items-center gap-2">
+        <div className="flex min-w-0 items-center gap-2 min-h-7">
           {hasExistingPr && existingPrUrl ? (
             /* oxlint-disable-next-line nextjs/no-html-link-for-pages */
             <a
@@ -1229,7 +1229,7 @@ export function GitPanel(props: GitPanelProps) {
       </div>
 
       {/* Tab bar — matches chat tabs sub-header height */}
-      <div className="flex items-center gap-0.5 border-b border-border bg-muted/30 px-1 py-1">
+      <div className="flex items-center gap-0.5 border-b border-border bg-muted/30 px-1">
         {(
           [
             "code" as const,
@@ -1242,7 +1242,7 @@ export function GitPanel(props: GitPanelProps) {
             type="button"
             onClick={() => setGitPanelTab(tab)}
             className={cn(
-              "rounded-md px-2.5 py-1.5 text-xs font-medium transition-colors",
+              "rounded-md px-2.5 py-2.5 text-xs font-medium transition-colors",
               gitPanelTab === tab
                 ? "bg-secondary text-secondary-foreground"
                 : "text-muted-foreground hover:bg-muted/50",
