@@ -612,7 +612,7 @@ function InlinePrCreatePanel({
       let finalTitle = prTitle.trim();
       let finalBody = prBody.trim();
 
-      // Auto-generate if content is empty
+      // Auto-generate if title is empty
       if (!finalTitle) {
         setIsGenerating(true);
         try {
@@ -1274,8 +1274,12 @@ export function GitPanel(props: GitPanelProps) {
     ? buildingDeploymentUrl
     : prDeploymentUrl;
 
-  // Show the PR tab when there's a PR, or when the branch has diverged and changes are committed
-  const showGitTab = hasExistingPr || (hasDiff && !hasUncommittedGitChanges);
+  // Show the PR tab when there's a PR, or when the branch has diverged and
+  // changes are committed.  Gate on gitStatus being loaded so the tab doesn't
+  // flicker while async data resolves.
+  const showGitTab =
+    hasExistingPr ||
+    (gitStatus !== null && hasDiff && !hasUncommittedGitChanges);
 
   return (
     <div className="flex h-full flex-col bg-background">
