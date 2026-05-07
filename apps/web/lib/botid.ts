@@ -8,26 +8,27 @@ import { checkBotId } from "botid/server";
  * preview / sandbox URLs.
  */
 export const botIdConfig = {
-  advancedOptions: {
-    extraAllowedHosts: [
-      "vercel.com",
-      "*.vercel.com",
-      "*.vercel.dev",
-      "*.vercel.run",
-      "*.open-agents.dev",
-    ],
-  },
+    advancedOptions: {
+          extraAllowedHosts: [
+                  "vercel.com",
+                  "*.vercel.com",
+                  "*.vercel.app",
+                  "*.vercel.dev",
+                  "*.vercel.run",
+                  "*.open-agents.dev",
+                ],
+    },
 };
 
 export async function checkBotProtection() {
-  if (process.env.NODE_ENV !== "production") {
-    return {
-      isHuman: true,
-      isBot: false,
-      isVerifiedBot: false,
-      bypassed: true,
-    };
-  }
+    if (process.env.NODE_ENV !== "production") {
+          return {
+                  isHuman: true,
+                  isBot: false,
+                  isVerifiedBot: false,
+                  bypassed: true,
+          };
+    }
 
   return checkBotId(botIdConfig);
 }
