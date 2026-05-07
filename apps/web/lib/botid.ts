@@ -1,34 +1,19 @@
-import { checkBotId } from "botid/server";
-
 /**
- * Shared Vercel BotID server-side configuration.
+ * BotID protection — disabled for self-hosted deployments.
  *
- * `extraAllowedHosts` tells BotID which frontend origins are permitted to
- * call the protected endpoints — anything on our own domains plus Vercel
- * preview / sandbox URLs.
+ * The upstream Vercel BotID integration requires infrastructure
+ * (API keys, fingerprinting endpoints) that only exists on the
+ * official open-agents.dev deployment. For self-hosted forks we
+ * bypass the check entirely.
  */
-export const botIdConfig = {
-    advancedOptions: {
-          extraAllowedHosts: [
-                  "vercel.com",
-                  "*.vercel.com",
-                  "*.vercel.app",
-                  "*.vercel.dev",
-                  "*.vercel.run",
-                  "*.open-agents.dev",
-                ],
-    },
-};
+
+export const botIdConfig = {};
 
 export async function checkBotProtection() {
-    if (process.env.NODE_ENV !== "production") {
-          return {
-                  isHuman: true,
-                  isBot: false,
-                  isVerifiedBot: false,
-                  bypassed: true,
-          };
-    }
-
-  return checkBotId(botIdConfig);
+      return {
+              isHuman: true,
+              isBot: false,
+              isVerifiedBot: false,
+              bypassed: true,
+      };
 }
